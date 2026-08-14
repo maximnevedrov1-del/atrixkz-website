@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atrix KZ — Технологии безопасной чистоты</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.hero-main { padding: 64px 0 40px; text-align: center; }
+.hero-main h1 { font-size: 42px; font-weight: 700; margin-bottom: 16px; line-height: 1.15; }
+.hero-main p { font-size: 18px; color: var(--text-secondary); max-width: 600px; margin: 0 auto 32px; }
+.hero-cta { display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.hero-cta a { padding: 14px 28px; border-radius: var(--radius-sm); text-decoration: none; font-weight: 600; font-size: 15px; }
+.hero-cta .primary { background: var(--accent); color: #0a0a0f; }
+.hero-cta .secondary { background: var(--surface-raised); color: var(--text-primary); border: 1px solid var(--border); }
+
+.sectors { margin: 48px 0; }
+.sectors h2 { font-size: 14px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; text-align: center; }
+.sector-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.sector-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: border-color 0.2s, transform 0.2s;
+}
+.sector-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.sector-card .tag { font-size: 12px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 8px; }
+.sector-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+.sector-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+.sector-card .arrow { margin-top: 12px; font-size: 14px; color: var(--accent); }
+
+.trust { margin: 48px 0; text-align: center; }
+.trust h2 { font-size: 14px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+.trust-items { display: flex; flex-wrap: wrap; justify-content: center; gap: 32px; }
+.trust-item { font-size: 14px; color: var(--text-secondary); }
+.trust-item strong { display: block; font-size: 28px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+
+.calculator-banner {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  text-align: center;
+  margin: 48px 0;
+}
+.calculator-banner h3 { font-size: 22px; margin-bottom: 8px; }
+.calculator-banner p { color: var(--text-secondary); margin-bottom: 20px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <div class="logo">ATRIX<span>KZ</span></div>
+    <nav class="nav-links">
+      <a href="calculator.html">Калькулятор риска</a>
+      <a href="mailto:info@atrixkz.kz">Контакты</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="hero-main">
+    <h1>Технологии безопасной чистоты</h1>
+    <p>Atrix — не пылесосы. Это страховка от штрафов, простоев и потери аттестации. Официальный дистрибьютор в Казахстане и Центральной Азии.</p>
+    <div class="hero-cta">
+      <a href="calculator.html" class="primary">Рассчитать стоимость риска</a>
+      <a href="mailto:info@atrixkz.kz?subject=Коммерческое%20предложение" class="secondary">Получить КП</a>
+    </div>
+  </section>
+
+  <section class="trust">
+    <h2>Почему Atrix</h2>
+    <div class="trust-items">
+      <div class="trust-item"><strong>8</strong>специализированных направлений</div>
+      <div class="trust-item"><strong>99,999%</strong>удержание частиц ULPA H14</div>
+      <div class="trust-item"><strong>1000 ч</strong>ресурс мотора Ametek</div>
+      <div class="trust-item"><strong>США</strong>производство, сертификаты CE / TÜV</div>
+    </div>
+  </section>
+
+  <section class="sectors">
+    <h2>Решения по отраслям</h2>
+    <div class="sector-grid">
+      <a href="mrt.html" class="sector-card">
+        <div class="tag">Медицина</div>
+        <h3>МРТ и диагностика</h3>
+        <p>Единственный немагнитный пылесос для зоны магнита. Защита томографа от «штуцер-эффекта».</p>
+        <div class="arrow">Подробнее →</div>
+      </a>
+      <a href="med.html" class="sector-card">
+        <div class="tag">Медицина</div>
+        <h3>Чистые помещения</h3>
+        <p>Антимикробные HEPA-пылесосы для ISO 5 / Class 100. Доказуемое соответствие для аттестации.</p>
+        <div class="arrow">Подробнее →</div>
+      </a>
+      <a href="dust.html" class="sector-card">
+        <div class="tag">Промбезопасность</div>
+        <h3>Опасная пыль</h3>
+        <p>Сертифицированные ULPA H14 для асбеста, свинца, силиката. Класс H по IEC/EN 60335-2-69.</p>
+        <div class="arrow">Подробнее →</div>
+      </a>
+      <a href="avia.html" class="sector-card">
+        <div class="tag">Авиация</div>
+        <h3>Авиация и аэропорты</h3>
+        <p>Рюкзачные HEPA-пылесосы на 400 Гц от бортовой сети. Уборка салона за время стыковки.</p>
+        <div class="arrow">Подробнее →</div>
+      </a>
+      <a href="cleaning.html" class="sector-card">
+        <div class="tag">Клининг</div>
+        <h3>Профессиональный клининг</h3>
+        <p>102 CFM, рюкзачный формат, HEPA 4 уровня. Больше площади в час, меньше усталости бригады.</p>
+        <div class="arrow">Подробнее →</div>
+      </a>
+      <a href="it.html" class="sector-card">
+        <div class="tag">IT</div>
+        <h3>Сервис оргтехники и ЦОД</h3>
+        <p>ESD-пылесосы для тонера и критичной электроники. Защита плат от статического разряда.</p>
+        <div class="arrow">Подробнее →</div>
+      </a>
+      <a href="print.html" class="sector-card">
+        <div class="tag">Производство</div>
+        <h3>Типографии и печать</h3>
+        <p>5-галлонные High Capacity станции для тонерной пыли. ESD Safe, немедленное удержание.</p>
+        <div class="arrow">Подробнее →</div>
+      </a>
+      <a href="pest.html" class="sector-card">
+        <div class="tag">Санитария</div>
+        <h3>Пест-контроль и HACCP</h3>
+        <p>HEPA-удержание насекомых и аллергенов без распыления. Соответствие протоколам IPM.</p>
+        <div class="arrow">Подробнее →</div>
+      </a>
+    </div>
+  </section>
+
+  <section class="calculator-banner">
+    <h3>Сколько стоит неправильный пылесос?</h3>
+    <p>Рассчитайте потери от простоя, штрафов и инцидентов для вашей отрасли. Сравните с ценой Atrix.</p>
+    <a href="calculator.html" class="cta-btn">Открыть калькулятор риска</a>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>Официальный дистрибьютор Atrix International (США) в Казахстане и Центральной Азии</p>
+    <p>Тел: <a href="tel:+77064217536">+7 706 421 75 36</a> · Email: <a href="mailto:info@atrixkz.kz">info@atrixkz.kz</a> · Сайт: atrixkz.kz</p>
+  </div>
+</footer>
+
+</body>
+</html>
