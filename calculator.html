@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Калькулятор риска — Atrix KZ</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.calc-tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+.calc-tab {
+  padding: 10px 16px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); background: transparent;
+  color: var(--text-secondary); cursor: pointer; font-size: 14px;
+  transition: all 0.2s;
+}
+.calc-tab.active { color: var(--text-primary); border-color: var(--text-primary); background: var(--surface-raised); }
+.calc-panel { display: none; }
+.calc-panel.active { display: block; }
+
+.input-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px; margin-bottom: 16px;
+}
+.input-row {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px; gap: 12px; flex-wrap: wrap;
+}
+.input-row label { font-size: 14px; color: var(--text-secondary); flex: 1 1 180px; }
+.input-row input {
+  width: 140px; padding: 8px 12px; border: 1px solid var(--border);
+  border-radius: var(--radius-sm); font-size: 14px;
+  color: var(--text-primary); background: var(--bg);
+  font-variant-numeric: tabular-nums;
+}
+.input-row .unit { font-size: 12px; color: var(--text-muted); margin-left: 4px; }
+
+.result-card {
+  background: var(--surface-raised); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px; margin-top: 16px;
+}
+.result-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.result-label { font-size: 14px; color: var(--text-secondary); }
+.result-value { font-size: 16px; font-weight: 500; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+.result-value.danger { color: var(--danger); }
+.result-value.positive { color: var(--positive); }
+.result-sep { height: 1px; background: var(--border); margin: 12px 0; }
+.result-big { font-size: 28px; font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+.result-big.positive { color: var(--positive); }
+.result-note { font-size: 14px; color: var(--text-secondary); margin-top: 8px; }
+.result-note span { font-weight: 600; color: var(--text-primary); }
+
+.cta-btn-inline {
+  display: inline-block; margin-top: 16px;
+  background: var(--accent); color: #0a0a0f;
+  padding: 12px 24px; border-radius: var(--radius-sm);
+  text-decoration: none; font-weight: 600; font-size: 14px;
+}
+
+.scenario-title { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+.scenario-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <div class="logo">ATRIX<span>KZ</span></div>
+    <nav class="nav-links">
+      <a href="index.html">Все направления</a>
+      <a href="mailto:info@atrixkz.kz">Контакты</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="hero" style="padding-bottom:24px;">
+    <div class="hero-tag">Калькулятор риска</div>
+    <h1>Сколько стоит неправильный пылесос?</h1>
+    <p class="hero-desc">Введите данные вашего объекта и сравните стоимость инцидента с ценой защиты Atrix.</p>
+  </section>
+
+  <div class="calc-tabs">
+    <button class="calc-tab active" onclick="switchTab('mri')">МРТ-диагностика</button>
+    <button class="calc-tab" onclick="switchTab('dust')">Опасная пыль</button>
+    <button class="calc-tab" onclick="switchTab('clean')">Проф. клининг</button>
+    <button class="calc-tab" onclick="switchTab('print')">Типография</button>
+    <button class="calc-tab" onclick="switchTab('it')">IT / ЦОД</button>
+  </div>
+
+  <!-- МРТ -->
+  <div class="calc-panel active" id="mri">
+    <div class="scenario-title">Стоимость простоя МРТ-томографа</div>
+    <div class="scenario-desc">Один день без диагностики — это упущенная выручка центра и отменённые приёмы пациентов.</div>
+    <div class="input-card">
+      <div class="input-row"><label>Приёмов в день</label><div><input type="number" id="mri_visits" value="40" oninput="calcMRI()"><span class="unit">чел</span></div></div>
+      <div class="input-row"><label>Средний чек приёма</label><div><input type="number" id="mri_check" value="25000" oninput="calcMRI()"><span class="unit">₸</span></div></div>
+      <div class="input-row"><label>Простой при аварии</label><div><input type="number" id="mri_days" value="3" oninput="calcMRI()"><span class="unit">дня</span></div></div>
+      <div class="input-row"><label>Стоимость ремонта томографа</label><div><input type="number" id="mri_repair" value="5000000" oninput="calcMRI()"><span class="unit">₸</span></div></div>
+    </div>
+    <div class="result-card">
+      <div class="result-row"><span class="result-label">Потерянная выручка</span><span class="result-value danger" id="mri_lost">3 000 000 ₸</span></div>
+      <div class="result-row"><span class="result-label">Ремонт + простой</span><span class="result-value danger" id="mri_total">8 000 000 ₸</span></div>
+      <div class="result-sep"></div>
+      <div class="result-row"><span class="result-label">Цена Atrix MRI-safe</span><span class="result-value positive" id="mrix_price">480 000 ₸</span></div>
+      <div class="result-row"><span class="result-label">Экономия / защита</span><span class="result-big positive" id="mri_save">7 520 000 ₸</span></div>
+      <div class="result-note">Atrix стоит <span id="mri_ratio">16,7×</span> дешевле одного инцидента</div>
+      <a href="mrt.html" class="cta-btn-inline">Подробнее про решение для МРТ</a>
+    </div>
+  </div>
+
+  <!-- Опасная пыль -->
+  <div class="calc-panel" id="dust">
+    <div class="scenario-title">Штрафы и остановка при работе с асбестом/свинцом</div>
+    <div class="scenario-desc">Без сертификата Class H — штрафы Государственной инспекции труда и остановка объекта.</div>
+    <div class="input-card">
+      <div class="input-row"><label>Сотрудников на объекте</label><div><input type="number" id="dust_workers" value="15" oninput="calcDust()"><span class="unit">чел</span></div></div>
+      <div class="input-row"><label>Средняя зарплата</label><div><input type="number" id="dust_salary" value="400000" oninput="calcDust()"><span class="unit">₸/мес</span></div></div>
+      <div class="input-row"><label>Дней простоя объекта</label><div><input type="number" id="dust_stop" value="5" oninput="calcDust()"><span class="unit">дней</span></div></div>
+      <div class="input-row"><label>Штраф Госинспекции</label><div><input type="number" id="dust_fine" value="2000000" oninput="calcDust()"><span class="unit">₸</span></div></div>
+      <div class="input-row"><label>Стоимость лечения (1 чел)</label><div><input type="number" id="dust_med" value="1500000" oninput="calcDust()"><span class="unit">₸</span></div></div>
+    </div>
+    <div class="result-card">
+      <div class="result-row"><span class="result-label">ФОТ за простой</span><span class="result-value" id="dust_payroll">1 000 000 ₸</span></div>
+      <div class="result-row"><span class="result-label">Штраф + риск иска</span><span class="result-value danger" id="dust_fine_total">2 000 000 ₸</span></div>
+      <div class="result-row"><span class="result-label">Риск лечения персонала</span><span class="result-value danger" id="dust_med_total">15 000 000 ₸</span></div>
+      <div class="result-sep"></div>
+      <div class="result-row"><span class="result-label">Цена Atrix Class H</span><span class="result-value positive" id="dust_price">500 000 ₸</span></div>
+      <div class="result-row"><span class="result-label">Экономия / защита</span><span class="result-big positive" id="dust_save">17 500 000 ₸</span></div>
+      <div class="result-note">Atrix стоит <span id="dust_ratio">35×</span> дешевле потенциальных потерь</div>
+      <a href="dust.html" class="cta-btn-inline">Подробнее про Class H</a>
+    </div>
+  </div>
+
+  <!-- Клининг -->
+  <div class="calc-panel" id="clean">
+    <div class="scenario-title">Экономия клининговой бригады на эргономике</div>
+    <div class="scenario-desc">Рюкзачный формат = больше площади в час, меньше усталости, меньше текучки кадров.</div>
+    <div class="input-card">
+      <div class="input-row"><label>Количество уборщиков</label><div><input type="number" id="clean_staff" value="20" oninput="calcClean()"><span class="unit">чел</span></div></div>
+      <div class="input-row"><label>Зарплата уборщика</label><div><input type="number" id="clean_salary" value="250000" oninput="calcClean()"><span class="unit">₸/мес</span></div></div>
+      <div class="input-row"><label>Текучка кадров в год</label><div><input type="number" id="clean_turnover" value="30" oninput="calcClean()"><span class="unit">%</span></div></div>
+      <div class="input-row"><label>Стоимость замены 1 сотрудника</label><div><input type="number" id="clean_replace" value="150000" oninput="calcClean()"><span class="unit">₸</span></div></div>
+      <div class="input-row"><label>Прирост производительности</label><div><input type="number" id="clean_gain" value="25" oninput="calcClean()"><span class="unit">%</span></div></div>
+    </div>
+    <div class="result-card">
+      <div class="result-row"><span class="result-label">Затраты на текучку / год</span><span class="result-value danger" id="clean_turn_cost">900 000 ₸</span></div>
+      <div class="result-row"><span class="result-label">Экономия ФОТ за счёт прироста</span><span class="result-value positive" id="clean_fot_save">1 250 000 ₸/год</span></div>
+      <div class="result-sep"></div>
+      <div class="result-row"><span class="result-label">Цена Atrix Ergo Pro</span><span class="result-value" id="clean_price">315 000 ₸</span></div>
+      <div class="result-row"><span class="result-label">Окупаемость 1 единицы</span><span class="result-big positive" id="clean_payback">3,0 мес</span></div>
+      <div class="result-note">При парке в <span id="clean_park">10</span> шт экономия / год: <span style="font-weight:600;">12 500 000 ₸</span></div>
+      <a href="cleaning.html" class="cta-btn-inline">Подробнее про Ergo Pro</a>
+    </div>
+  </div>
+
+  <!-- Типография -->
+  <div class="calc-panel" id="print">
+    <div class="scenario-title">Простои печатного оборудования из-за тонера</div>
+    <div class="scenario-desc">Тонерная пыль = остановка машин, износ роликов, повторные выезды сервиса.</div>
+    <div class="input-card">
+      <div class="input-row"><label>Печатных машин</label><div><input type="number" id="print_machines" value="4" oninput="calcPrint()"><span class="unit">шт</span></div></div>
+      <div class="input-row"><label>Выручка машины / час</label><div><input type="number" id="print_hour" value="50000" oninput="calcPrint()"><span class="unit">₸</span></div></div>
+      <div class="input-row"><label>Простой на чистку / мес</label><div><input type="number" id="print_stop" value="6" oninput="calcPrint()"><span class="unit">часов</span></div></div>
+      <div class="input-row"><label>Стоимость замены роликов</label><div><input type="number" id="print_rollers" value="800000" oninput="calcPrint()"><span class="unit">₸/год</span></div></div>
+      <div class="input-row"><label>Выезды сервиса / год</label><div><input type="number" id="print_service" value="12" oninput="calcPrint()"><span class="unit">раз</span></div></div>
+      <div class="input-row"><label>Стоимость выезда</label><div><input type="number" id="print_svc_cost" value="50000" oninput="calcPrint()"><span class="unit">₸</span></div></div>
+    </div>
+    <div class="result-card">
+      <div class="result-row"><span class="result-label">Потерянная выручка / год</span><span class="result-value danger" id="print_lost">14 400 000 ₸</span></div>
+      <div class="result-row"><span class="result-label">Замена роликов + сервис</span><span class="result-value danger" id="print_extra">1 400 000 ₸</span></div>
+      <div class="result-sep"></div>
+      <div class="result-row"><span class="result-label">Цена Atrix High Capacity</span><span class="result-value positive" id="print_price">630 000 ₸</span></div>
+      <div class="result-row"><span class="result-label">Экономия / защита в год</span><span class="result-big positive" id="print_save">15 800 000 ₸</span></div>
+      <div class="result-note">Atrix окупается за <span id="print_payback">0,5</span> мес работы</div>
+      <a href="print.html" class="cta-btn-inline">Подробнее про High Capacity</a>
+    </div>
+  </div>
+
+  <!-- IT / ЦОД -->
+  <div class="calc-panel" id="it">
+    <div class="scenario-title">Стоимость ESD-разряда в ЦОДе или на сервисе</div>
+    <div class="scenario-desc">Один разряд статики = выгорание платы, потеря данных, гарантийный случай.</div>
+    <div class="input-card">
+      <div class="input-row"><label>Серверов / плат в зоне риска</label><div><input type="number" id="it_units" value="50" oninput="calcIT()"><span class="unit">шт</span></div></div>
+      <div class="input-row"><label>Стоимость замены платы</label><div><input type="number" id="it_board" value="300000" oninput="calcIT()"><span class="unit">₸</span></div></div>
+      <div class="input-row"><label>Вероятность инцидента / год</label><div><input type="number" id="it_risk" value="5" oninput="calcIT()"><span class="unit">%</span></div></div>
+      <div class="input-row"><label>Стоимость простоя системы</label><div><input type="number" id="it_downtime" value="1000000" oninput="calcIT()"><span class="unit">₸/час</span></div></div>
+      <div class="input-row"><label>Часов простоя при инциденте</label><div><input type="number" id="it_hours" value="4" oninput="calcIT()"><span class="unit">ч</span></div></div>
+    </div>
+    <div class="result-card">
+      <div class="result-row"><span class="result-label">Ожидаемый ущерб плат / год</span><span class="result-value danger" id="it_board_loss">750 000 ₸</span></div>
+      <div class="result-row"><span class="result-label">Ожидаемый ущерб простоя / год</span><span class="result-value danger" id="it_down_loss">2 000 000 ₸</span></div>
+      <div class="result-sep"></div>
+      <div class="result-row"><span class="result-label">Цена Atrix ESD</span><span class="result-value positive" id="it_price">265 000 ₸</span></div>
+      <div class="result-row"><span class="result-label">Экономия / защита в год</span><span class="result-big positive" id="it_save">2 485 000 ₸</span></div>
+      <div class="result-note">Atrix окупается за <span id="it_payback">1,3</span> мес</div>
+      <a href="it.html" class="cta-btn-inline">Подробнее про ESD-решения</a>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>Официальный дистрибьютор Atrix International (США) в Казахстане и Центральной Азии</p>
+    <p>Тел: <a href="tel:+77064217536">+7 706 421 75 36</a> · Email: <a href="mailto:info@atrixkz.kz">info@atrixkz.kz</a></p>
+  </div>
+</footer>
+
+<script>
+function fmt(n){return n.toLocaleString('ru-RU')+' ₸';}
+function switchTab(id){
+  document.querySelectorAll('.calc-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.calc-panel').forEach(p=>p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+function calcMRI(){
+  var v=+document.getElementById('mri_visits').value||0;
+  var c=+document.getElementById('mri_check').value||0;
+  var d=+document.getElementById('mri_days').value||0;
+  var r=+document.getElementById('mri_repair').value||0;
+  var lost=v*c*d, total=lost+r, price=480000, save=total-price;
+  document.getElementById('mri_lost').textContent=fmt(lost);
+  document.getElementById('mri_total').textContent=fmt(total);
+  document.getElementById('mrix_price').textContent=fmt(price);
+  document.getElementById('mri_save').textContent=fmt(save);
+  document.getElementById('mri_ratio').textContent=(total/price).toFixed(1)+'×';
+}
+function calcDust(){
+  var w=+document.getElementById('dust_workers').value||0;
+  var s=+document.getElementById('dust_salary').value||0;
+  var d=+document.getElementById('dust_stop').value||0;
+  var f=+document.getElementById('dust_fine').value||0;
+  var m=+document.getElementById('dust_med').value||0;
+  var payroll=Math.round(w*s/30*d);
+  var med=w*m;
+  var total=payroll+f+med, price=500000, save=total-price;
+  document.getElementById('dust_payroll').textContent=fmt(payroll);
+  document.getElementById('dust_fine_total').textContent=fmt(f);
+  document.getElementById('dust_med_total').textContent=fmt(med);
+  document.getElementById('dust_price').textContent=fmt(price);
+  document.getElementById('dust_save').textContent=fmt(save);
+  document.getElementById('dust_ratio').textContent=(total/price).toFixed(1)+'×';
+}
+function calcClean(){
+  var staff=+document.getElementById('clean_staff').value||0;
+  var sal=+document.getElementById('clean_salary').value||0;
+  var turn=+document.getElementById('clean_turnover').value||0;
+  var rep=+document.getElementById('clean_replace').value||0;
+  var gain=+document.getElementById('clean_gain').value||0;
+  var turnCost=Math.round(staff*(turn/100)*rep);
+  var fotSave=Math.round(staff*sal*12*(gain/100));
+  var price=315000, park=Math.max(1,Math.ceil(staff/2));
+  var totalSave=fotSave-turnCost;
+  var payback=price/(totalSave/12);
+  document.getElementById('clean_turn_cost').textContent=fmt(turnCost);
+  document.getElementById('clean_fot_save').textContent=fmt(fotSave)+'/год';
+  document.getElementById('clean_price').textContent=fmt(price);
+  document.getElementById('clean_payback').textContent=payback.toFixed(1)+' мес';
+  document.getElementById('clean_park').textContent=park;
+}
+function calcPrint(){
+  var m=+document.getElementById('print_machines').value||0;
+  var h=+document.getElementById('print_hour').value||0;
+  var s=+document.getElementById('print_stop').value||0;
+  var r=+document.getElementById('print_rollers').value||0;
+  var sv=+document.getElementById('print_service').value||0;
+  var svc=+document.getElementById('print_svc_cost').value||0;
+  var lost=m*h*s*12, extra=r+sv*svc, total=lost+extra, price=630000, save=total-price;
+  document.getElementById('print_lost').textContent=fmt(lost);
+  document.getElementById('print_extra').textContent=fmt(extra);
+  document.getElementById('print_price').textContent=fmt(price);
+  document.getElementById('print_save').textContent=fmt(save);
+  document.getElementById('print_payback').textContent=(price/(total/12)).toFixed(1);
+}
+function calcIT(){
+  var u=+document.getElementById('it_units').value||0;
+  var b=+document.getElementById('it_board').value||0;
+  var r=+document.getElementById('it_risk').value||0;
+  var d=+document.getElementById('it_downtime').value||0;
+  var h=+document.getElementById('it_hours').value||0;
+  var boardLoss=Math.round(u*b*(r/100));
+  var downLoss=Math.round(u*(r/100)*d*h);
+  var total=boardLoss+downLoss, price=265000, save=total-price;
+  document.getElementById('it_board_loss').textContent=fmt(boardLoss);
+  document.getElementById('it_down_loss').textContent=fmt(downLoss);
+  document.getElementById('it_price').textContent=fmt(price);
+  document.getElementById('it_save').textContent=fmt(save);
+  document.getElementById('it_payback').textContent=(price/(total/12)).toFixed(1);
+}
+calcMRI(); calcDust(); calcClean(); calcPrint(); calcIT();
+</script>
+
+</body>
+</html>
